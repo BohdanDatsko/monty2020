@@ -11,21 +11,25 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from distutils.command.config import config
+import dj_database_url
+
 from monty2019 import local_settings
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = local_settings.SECRET_KEY
+# SECRET_KEY = local_settings.SECRET_KEY
+SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+DEBUG = config("DEBUG", default=False, cast=bool)
 
 ALLOWED_HOSTS = []
 
@@ -48,6 +52,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -81,14 +86,15 @@ WSGI_APPLICATION = "monty2019.wsgi.application"
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": local_settings.DATABASES["default"].get("NAME"),
-        "USER": local_settings.DATABASES["default"].get("USER"),
-        "PASSWORD": local_settings.DATABASES["default"].get("PASSWORD"),
-        "HOST": local_settings.DATABASES["default"].get("HOST"),
-        "PORT": local_settings.DATABASES["default"].get("PORT"),
-    }
+    "default": dj_database_url.config(default=config("DATABASE_URL"))
+    # "default": {
+    #     "ENGINE": "django.db.backends.postgresql",
+    #     "NAME": local_settings.DATABASES["default"].get("NAME"),
+    #     "USER": local_settings.DATABASES["default"].get("USER"),
+    #     "PASSWORD": local_settings.DATABASES["default"].get("PASSWORD"),
+    #     "HOST": local_settings.DATABASES["default"].get("HOST"),
+    #     "PORT": local_settings.DATABASES["default"].get("PORT"),
+    # }
 }
 
 
@@ -120,14 +126,17 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
-STATIC_ROOT = os.path.join(PROJECT_ROOT, "staticfiles")
+
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
 STATIC_URL = "/static/"
 
 
 # Extra places for collectstatic to find static files.
-STATICFILES_DIRS = (os.path.join(PROJECT_ROOT, "static"),)
 
-STATICFILES_STORAGE = "whitenoise.django.GzipManifestStaticFilesStorage"
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+
+STATICFILES_STORAGE = "whitenoise.django.CompressedStaticFilesStorage"
 
 
 REST_FRAMEWORK = {
