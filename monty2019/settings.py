@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-from distutils.command.config import config
+# from distutils.command.config import config
 import dj_database_url
 
 # from monty2019 import local_settings
@@ -86,17 +86,17 @@ WSGI_APPLICATION = "monty2019.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    "default": dj_database_url.config(default=config("DATABASE_URL"))
-    # "default": {
-    #     "ENGINE": "django.db.backends.postgresql",
-    #     "NAME": local_settings.DATABASES["default"].get("NAME"),
-    #     "USER": local_settings.DATABASES["default"].get("USER"),
-    #     "PASSWORD": local_settings.DATABASES["default"].get("PASSWORD"),
-    #     "HOST": local_settings.DATABASES["default"].get("HOST"),
-    #     "PORT": local_settings.DATABASES["default"].get("PORT"),
-    # }
-}
+# DATABASES = {
+#     "default": dj_database_url.config(default=config("DATABASE_URL"))
+#     # "default": {
+#     #     "ENGINE": "django.db.backends.postgresql",
+#     #     "NAME": local_settings.DATABASES["default"].get("NAME"),
+#     #     "USER": local_settings.DATABASES["default"].get("USER"),
+#     #     "PASSWORD": local_settings.DATABASES["default"].get("PASSWORD"),
+#     #     "HOST": local_settings.DATABASES["default"].get("HOST"),
+#     #     "PORT": local_settings.DATABASES["default"].get("PORT"),
+#     # }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
