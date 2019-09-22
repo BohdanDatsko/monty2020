@@ -33,9 +33,9 @@ SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
-DEBUG = False
+# DEBUG = False
 # DEBUG = config("DEBUG", default=False, cast=bool)
-# DEBUG = bool(os.environ.get("DJANGO_DEBUG", True))
+DEBUG = bool(os.environ.get("DJANGO_DEBUG", True))
 
 ALLOWED_HOSTS = ["monty2019.herokuapp.com"]
 
