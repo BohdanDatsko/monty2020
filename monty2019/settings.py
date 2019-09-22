@@ -11,8 +11,9 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-# from distutils.command.config import config
 import dj_database_url
+
+from distutils.command.config import config
 
 # from monty2019 import local_settings
 
@@ -86,17 +87,17 @@ WSGI_APPLICATION = "monty2019.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-# DATABASES = {
-#     "default": dj_database_url.config(default=config("DATABASE_URL"))
-#     # "default": {
-#     #     "ENGINE": "django.db.backends.postgresql",
-#     #     "NAME": local_settings.DATABASES["default"].get("NAME"),
-#     #     "USER": local_settings.DATABASES["default"].get("USER"),
-#     #     "PASSWORD": local_settings.DATABASES["default"].get("PASSWORD"),
-#     #     "HOST": local_settings.DATABASES["default"].get("HOST"),
-#     #     "PORT": local_settings.DATABASES["default"].get("PORT"),
-#     # }
-# }
+DATABASES = {
+    "default": dj_database_url.config(default=config("DATABASE_URL"))
+    # "default": {
+    #     "ENGINE": "django.db.backends.postgresql",
+    #     "NAME": local_settings.DATABASES["default"].get("NAME"),
+    #     "USER": local_settings.DATABASES["default"].get("USER"),
+    #     "PASSWORD": local_settings.DATABASES["default"].get("PASSWORD"),
+    #     "HOST": local_settings.DATABASES["default"].get("HOST"),
+    #     "PORT": local_settings.DATABASES["default"].get("PORT"),
+    # }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -134,7 +135,8 @@ STATIC_URL = "/static/"
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
-STATICFILES_STORAGE = "whitenoise.django.CompressedStaticFilesStorage"
+# STATICFILES_STORAGE = "whitenoise.django.CompressedStaticFilesStorage"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
@@ -149,7 +151,6 @@ REST_FRAMEWORK = {
 REST_USE_JWT = True
 
 # Heroku: Update database configuration from $DATABASE_URL.
-# import dj_database_url
-
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
+# db_from_env = dj_database_url.config(conn_max_age=500)
+# DATABASES["default"].update(db_from_env)
+DATABASES["default"] = db_from_env
