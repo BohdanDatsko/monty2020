@@ -27,3 +27,5 @@ monty2019_venv/
 
 #Database
 *.sqlite3
+
+*.env

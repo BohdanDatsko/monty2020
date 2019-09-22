@@ -12,9 +12,9 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import dj_database_url
-import django_heroku
+from decouple import config, UndefinedValueError
 
-from distutils.command.config import config
+# import django_heroku
 
 # from monty2019 import local_settings
 
@@ -26,10 +26,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = local_settings.SECRET_KEY
-# SECRET_KEY = config("SECRET_KEY")
-SECRET_KEY = os.environ.get(
-    "DJANGO_SECRET_KEY", "cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag"
-)
+SECRET_KEY = config("SECRET_KEY")
+# SECRET_KEY = os.environ.get(
+#     "DJANGO_SECRET_KEY", "cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag"
+# )
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
@@ -87,18 +87,33 @@ WSGI_APPLICATION = "monty2019.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
+DATABASES = {"default": {}}
+try:
+    DATABASES = {
+        "default": {
+            "ENGINE": config("DB_ENGINE"),
+            "NAME": config("DB_NAME"),
+            "USER": config("DB_USER"),
+            "PASSWORD": config("DB_PASSWORD"),
+            "HOST": config("DB_HOST"),
+            "PORT": "5432",
+        }
+    }
+except UndefinedValueError:
+    db_from_env = dj_database_url.config()
+    DATABASES["default"].update(db_from_env)
 
-DATABASES = {
-    "default": dj_database_url.config(default=config("DATABASE_URL"))
-    # "default": {
-    #     "ENGINE": "django.db.backends.postgresql",
-    #     "NAME": local_settings.DATABASES["default"].get("NAME"),
-    #     "USER": local_settings.DATABASES["default"].get("USER"),
-    #     "PASSWORD": local_settings.DATABASES["default"].get("PASSWORD"),
-    #     "HOST": local_settings.DATABASES["default"].get("HOST"),
-    #     "PORT": local_settings.DATABASES["default"].get("PORT"),
-    # }
-}
+# DATABASES = {
+#     # "default": dj_database_url.config(default=config("DATABASE_URL"))
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": local_settings.DATABASES["default"].get("NAME"),
+#         "USER": local_settings.DATABASES["default"].get("USER"),
+#         "PASSWORD": local_settings.DATABASES["default"].get("PASSWORD"),
+#         "HOST": local_settings.DATABASES["default"].get("HOST"),
+#         "PORT": local_settings.DATABASES["default"].get("PORT"),
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -151,11 +166,11 @@ REST_FRAMEWORK = {
 
 REST_USE_JWT = True
 
-# Heroku: Update database configuration from $DATABASE_URL.
+# # Heroku: Update database configuration from $DATABASE_URL.
 # db_from_env = dj_database_url.config(conn_max_age=500)
 # DATABASES["default"].update(db_from_env)
-# DATABASES["default"] = db_from_env
-
-
-# Activate Django-Heroku.
-django_heroku.settings(locals())
+# # DATABASES["default"] = db_from_env
+#
+#
+# # # Activate Django-Heroku.
+# # django_heroku.settings(locals())
