@@ -34,8 +34,8 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 # DEBUG = False
-DEBUG = config("DEBUG", default=False, cast=bool)
-# DEBUG = bool(os.environ.get("DJANGO_DEBUG", True))
+# DEBUG = config("DEBUG", default=False, cast=bool)
+DEBUG = os.environ.get("DEBUG", False)
 
 ALLOWED_HOSTS = ["monty2019.herokuapp.com"]
 # ALLOWED_HOSTS = ["localhost"]
@@ -153,7 +153,6 @@ STATIC_URL = "/static/"
 
 # STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
-# STATICFILES_STORAGE = "whitenoise.django.CompressedStaticFilesStorage"
 # STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 REST_FRAMEWORK = {
