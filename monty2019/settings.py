@@ -14,7 +14,7 @@ import os
 import dj_database_url
 from decouple import config, UndefinedValueError
 
-# import django_heroku
+import django_heroku
 
 # from monty2019 import local_settings
 
@@ -145,7 +145,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-# STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 STATIC_URL = "/static/"
 
@@ -173,5 +173,5 @@ REST_USE_JWT = True
 # # DATABASES["default"] = db_from_env
 #
 #
-# # # Activate Django-Heroku.
-# # django_heroku.settings(locals())
+# Activate Django-Heroku.
+django_heroku.settings(locals())
