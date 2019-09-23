@@ -37,8 +37,8 @@ SECRET_KEY = config("SECRET_KEY")
 # DEBUG = config("DEBUG", default=False, cast=bool)
 DEBUG = os.environ.get("DEBUG", False)
 
-# ALLOWED_HOSTS = ["monty2019.herokuapp.com"]
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["monty2019.herokuapp.com"]
+# ALLOWED_HOSTS = []
 
 # Application definition
 
