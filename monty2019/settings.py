@@ -11,12 +11,10 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+
 import dj_database_url
-from decouple import config, UndefinedValueError
-
 import django_heroku
-
-# from monty2019 import local_settings
+from decouple import config, UndefinedValueError
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,20 +23,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = local_settings.SECRET_KEY
 SECRET_KEY = config("SECRET_KEY")
-# SECRET_KEY = os.environ.get(
-#     "DJANGO_SECRET_KEY", "cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag"
-# )
 
-# SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-# DEBUG = False
-# DEBUG = config("DEBUG", default=False, cast=bool)
 DEBUG = os.environ.get("DEBUG", False)
 
 ALLOWED_HOSTS = ["monty2019.herokuapp.com"]
-# ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -50,7 +39,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "monty.apps.MontyConfig",
-    # "monty",
     "rest_framework",
     "rest_framework.authtoken",
     "rest_auth",
@@ -106,18 +94,6 @@ except UndefinedValueError:
     db_from_env = dj_database_url.config()
     DATABASES["default"].update(db_from_env)
 
-# DATABASES = {
-#     # "default": dj_database_url.config(default=config("DATABASE_URL"))
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": local_settings.DATABASES["default"].get("NAME"),
-#         "USER": local_settings.DATABASES["default"].get("USER"),
-#         "PASSWORD": local_settings.DATABASES["default"].get("PASSWORD"),
-#         "HOST": local_settings.DATABASES["default"].get("HOST"),
-#         "PORT": local_settings.DATABASES["default"].get("PORT"),
-#     }
-# }
-
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
@@ -168,11 +144,6 @@ REST_FRAMEWORK = {
 
 REST_USE_JWT = True
 
-# # Heroku: Update database configuration from $DATABASE_URL.
-# db_from_env = dj_database_url.config(conn_max_age=500)
-# DATABASES["default"].update(db_from_env)
-# # DATABASES["default"] = db_from_env
-#
-#
+
 # Activate Django-Heroku.
 django_heroku.settings(locals())
