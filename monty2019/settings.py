@@ -37,8 +37,8 @@ SECRET_KEY = config("SECRET_KEY")
 DEBUG = config("DEBUG", default=False, cast=bool)
 # DEBUG = bool(os.environ.get("DJANGO_DEBUG", True))
 
-# ALLOWED_HOSTS = ["monty2019.herokuapp.com"]
-ALLOWED_HOSTS = ["localhost"]
+ALLOWED_HOSTS = ["monty2019.herokuapp.com"]
+# ALLOWED_HOSTS = ["localhost"]
 
 # Application definition
 
@@ -145,16 +145,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+# STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 STATIC_URL = "/static/"
 
 # Extra places for collectstatic to find static files.
 
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+# STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 # STATICFILES_STORAGE = "whitenoise.django.CompressedStaticFilesStorage"
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
