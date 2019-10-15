@@ -1,9 +1,9 @@
-from rest_framework import generics, filters
-from rest_framework.viewsets import ViewSetMixin
-from monty.models import Dictionary, Theme, Word, Test
-from rest_framework.permissions import IsAuthenticated
-# from rest_framework.authentication import BasicAuthentication
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import generics, filters
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.viewsets import ViewSetMixin
+
+from monty.models import Dictionary, Theme, Word, Test
 from monty.permissions import (
     IsDictOwnerOrAdmin,
     IsThemeOwnerOrAdmin,
@@ -20,9 +20,7 @@ from monty.serializers import (
 class DictionaryList(ViewSetMixin, generics.ListCreateAPIView):
     queryset = Dictionary.objects.all()
     serializer_class = DictionarySerializer
-    # authentication_classes = (BasicAuthentication,)
     permission_classes = (IsDictOwnerOrAdmin, IsAuthenticated)
-
     filter_backends = [filters.OrderingFilter]
     ordering_fields = [
         "dictionary_name",
@@ -32,20 +30,18 @@ class DictionaryList(ViewSetMixin, generics.ListCreateAPIView):
     ]
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user.profile)
+        serializer.save(owner=self.request.user)
 
 
 class DictionaryDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Dictionary.objects.all()
     serializer_class = DictionarySerializer
-    # authentication_classes = (BasicAuthentication,)
     permission_classes = (IsDictOwnerOrAdmin, IsAuthenticated)
 
 
 class ThemeList(ViewSetMixin, generics.ListCreateAPIView):
     queryset = Theme.objects.all()
     serializer_class = ThemeSerializer
-    # authentication_classes = (BasicAuthentication,)
     permission_classes = (IsThemeOwnerOrAdmin, IsAuthenticated)
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ["theme_name"]
@@ -58,14 +54,12 @@ class ThemeList(ViewSetMixin, generics.ListCreateAPIView):
 class ThemeDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Theme.objects.all()
     serializer_class = ThemeSerializer
-    # authentication_classes = (BasicAuthentication,)
     permission_classes = (IsThemeOwnerOrAdmin, IsAuthenticated)
 
 
 class WordList(ViewSetMixin, generics.ListCreateAPIView):
     queryset = Word.objects.all()
     serializer_class = WordSerializer
-    # authentication_classes = (BasicAuthentication,)
     permission_classes = (IsWordOwnerOrAdmin, IsAuthenticated)
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ["dictionary", "theme"]
@@ -79,7 +73,6 @@ class WordList(ViewSetMixin, generics.ListCreateAPIView):
 class WordDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Word.objects.all()
     serializer_class = WordSerializer
-    # authentication_classes = (BasicAuthentication,)
     permission_classes = (IsWordOwnerOrAdmin, IsAuthenticated)
 
 

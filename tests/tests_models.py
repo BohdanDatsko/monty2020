@@ -2,15 +2,20 @@ import datetime
 from model_mommy import mommy
 from django.test import TestCase
 from django.utils import timezone
-from django.contrib.auth.models import User
-from monty.models import User, Word, Theme, Dictionary, Test, Profile
+from django.contrib.auth import get_user_model
+from monty.models import Word, Theme, Dictionary, Test
+
+
+User = get_user_model()
 
 
 class WordTestModel(TestCase):
-    """ Test module for Word model """
+    """
+        Test module for Word model
+    """
 
     def setUp(self):
-        self.test_user = Profile.objects.create(user=mommy.make(User))
+        self.test_user = mommy.make(User)
 
         dictionary_en_uk = Dictionary.objects.create(
             dictionary_name="English-Ukrainian", owner=self.test_user
@@ -50,10 +55,12 @@ class WordTestModel(TestCase):
 
 
 class ThemeTestModel(TestCase):
-    """ Test module for Theme model """
+    """
+        Test module for Theme model
+    """
 
     def setUp(self):
-        self.test_user = Profile.objects.create(user=mommy.make(User))
+        self.test_user = mommy.make(User)
 
         dictionary_en_uk = Dictionary.objects.create(
             dictionary_name="English-Ukrainian", owner=self.test_user
@@ -97,10 +104,12 @@ class ThemeTestModel(TestCase):
 
 
 class DictionaryTestModel(TestCase):
-    """ Test module for Dictionary model """
+    """
+        Test module for Dictionary model
+    """
 
     def setUp(self):
-        self.test_user = Profile.objects.create(user=mommy.make(User))
+        self.test_user = mommy.make(User)
 
         Dictionary.objects.create(dictionary_name="English", owner=self.test_user)
 
@@ -132,17 +141,15 @@ class DictionaryTestModel(TestCase):
 
 class TestTestModel(TestCase):
     """
-    Class to test the model
-    Test
+        Class to test the model Test
     """
 
     def setUp(self):
         user_test = User.objects.create_user(
             username="test", email="test@user.com", password="foo"
         )
-        owner_1 = Profile.objects.create(user=user_test)
         dictionary_test = Dictionary.objects.create(
-            dictionary_name="English", owner=owner_1
+            dictionary_name="English", owner=user_test
         )
         mommy.make(Test, result=45, dictionary=dictionary_test)
         Test.objects.create(result=90, dictionary=dictionary_test)

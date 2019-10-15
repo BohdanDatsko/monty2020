@@ -1,7 +1,6 @@
 from rest_framework import permissions
-from rest_framework.exceptions import PermissionDenied
-
 from monty.models import Dictionary, Theme, Word
+from rest_framework.exceptions import PermissionDenied
 
 
 class IsLoggedInUserOrAdmin(permissions.BasePermission):
@@ -24,13 +23,13 @@ class IsDictOwnerOrAdmin(permissions.BasePermission):
         else:
             if request.user.is_anonymous:
                 raise PermissionDenied()
-            view.queryset = Dictionary.objects.filter(owner=request.user.profile)
+            view.queryset = Dictionary.objects.filter(owner=request.user)
             if len(view.queryset) == 0:
                 return True
             return view.queryset
 
     def has_object_permission(self, request, view, obj):
-        return obj.owner == request.user.profile or request.user.is_staff
+        return obj.owner == request.user or request.user.is_staff
 
 
 class IsThemeOwnerOrAdmin(permissions.BasePermission):
@@ -38,13 +37,13 @@ class IsThemeOwnerOrAdmin(permissions.BasePermission):
         if request.user.is_staff:
             return True
         else:
-            view.queryset = Theme.objects.filter(dictionary__owner=request.user.profile)
+            view.queryset = Theme.objects.filter(dictionary__owner=request.user)
             if len(view.queryset) == 0:
                 return True
             return view.queryset
 
     def has_object_permission(self, request, view, obj):
-        return request.user.profile == obj.get_user()
+        return request.user == obj.get_user()
 
 
 class IsWordOwnerOrAdmin(permissions.BasePermission):
@@ -53,11 +52,11 @@ class IsWordOwnerOrAdmin(permissions.BasePermission):
             return True
         else:
             view.queryset = Word.objects.filter(
-                dictionary__owner=request.user.profile
+                dictionary__owner=request.user
             )
             if len(view.queryset) == 0:
                 return True
             return view.queryset
 
     def has_object_permission(self, request, view, obj):
-        return request.user.profile == obj.get_user()
+        return request.user == obj.get_user()

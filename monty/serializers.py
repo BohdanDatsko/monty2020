@@ -1,13 +1,15 @@
+from itertools import chain
+
+from django.contrib.auth import get_user_model
+from django.db.models import F, Q
 from rest_framework import serializers
-from monty.models import Profile, User, Dictionary, Theme, Word, Test
+
+from monty.models import Dictionary, Theme, Word, Test
+
+User = get_user_model()
 
 
 class DictionarySerializer(serializers.ModelSerializer):
-    def validate(self, data):
-        if not data.get("owner", None):
-            raise serializers.ValidationError("Owner is not found")
-        return data
-
     class Meta:
         model = Dictionary
         fields = (
@@ -18,6 +20,11 @@ class DictionarySerializer(serializers.ModelSerializer):
             "dictionary_name",
         )
 
+    def validate(self, data):
+        if not data.get("owner", None):
+            raise serializers.ValidationError("Owner is not found")
+        return data
+
 
 class ThemeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -26,6 +33,10 @@ class ThemeSerializer(serializers.ModelSerializer):
 
 
 class WordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Word
+        fields = ("id", "native_word", "foreign_word", "dictionary", "theme")
+
     def validate(self, data):
         if data.get("theme", None):
             if data.get("theme").dictionary != data.get("dictionary", None):
@@ -43,65 +54,66 @@ class WordSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("data not valid")
         return data
 
-    class Meta:
-        model = Word
-        fields = ("id", "native_word", "foreign_word", "dictionary", "theme")
-
 
 class TestSerializer(serializers.ModelSerializer):
+    dictionary = DictionarySerializer()
+    themes = ThemeSerializer(many=True)
+    words = WordSerializer(many=True)
     result = serializers.FloatField()
     test_date = serializers.DateTimeField()
 
     class Meta:
         model = Test
-        fields = ("id", "result", "test_date")
+        fields = "__all__"
 
-
-class ProfileSerializer(serializers.ModelSerializer):
-    dictionaries = DictionarySerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Profile
-        fields = ("native_language", "dictionaries")
-
-    def create(self, validated_data):
-        return Profile.objects.create(**validated_data)
-
-    def update(self, instance, validated_data):
-        instance.players = validated_data
-        return instance
-
-
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    profile = ProfileSerializer(required=True)
-
-    class Meta:
-        model = User
-        fields = ("email", "username", "first_name", "last_name", "password", "profile")
-        extra_kwargs = {"password": {"write_only": True}}
-
-    def create(self, validated_data):
-        profile_data = validated_data.pop("profile")
-        password = validated_data.pop("password")
-        user = User(**validated_data)
-        user.set_password(password)
-        user.save()
-        Profile.objects.create(user=user, **profile_data)
-        return user
-
-    def update(self, instance, validated_data):
-        profile_data = validated_data.pop("profile")
-        profile = instance.profile
-
-        instance.email = validated_data.get("email", instance.email)
-        instance.first_name = validated_data.get("first_name", instance.first_name)
-        instance.last_name = validated_data.get("last_name", instance.last_name)
-        instance.save()
-
-        profile.native_language = profile_data.get(
-            "native_language", profile.native_language
-        )
-        profile.dictionary = profile_data.get("dictionary", profile.dictionaries)
-        profile.save()
-
-        return instance
+    # def create(self, request):
+    #     data = request.data
+    #     dictionary = Dictionary.objects.get(dictionary_name=data["dictionary"])
+    #     themes = Theme.objects.get(theme_name=data["theme"])
+    #     themes_ids = [item.id for item in themes]
+    #     all_words = Word.objects.filter(
+    #         dictionary_id=dictionary.id, theme_id__in=themes_ids
+    #     )
+    #     excellent_words = all_words.filter(
+    #         Q(quality__lte=100) & Q(quality__gt=50)
+    #     ).order_by("-count")[:5]
+    #     good_words = all_words.filter(Q(quality__lte=50) & Q(quality__gt=20)).order_by(
+    #         "-count"
+    #     )[:10]
+    #     bad_words = all_words.filter(Q(quality__lte=20) & Q(quality__gte=0)).order_by(
+    #         "-count"
+    #     )[:10]
+    #     words = list(chain(excellent_words, good_words, bad_words))
+    #     test = Test()
+    #     test.dictionary = dictionary
+    #     test.result = 0
+    #     test.save()
+    #     test.themes.set(themes)
+    #     test.words.set(words)
+    #     test.save()
+    #     return test
+    #
+    # def update(self, request):
+    #     data = request.data
+    #     temp_result = 0
+    #     test = Test.objects.get(test_id=data["id"])
+    #     right_words = [q for q in test.words.all()]
+    #     all_words = Word.objects.all()
+    #     for word in right_words:
+    #         all_words.filter(id=word.id).update(
+    #             count=F("count") + 1
+    #         )  # Update word's count
+    #         user_answer = [data["foreign_word"][a] for a in data["foreign_word"]]
+    #         right_answer = word.native_word[0]
+    #         if user_answer == right_answer:
+    #             temp_result += 1
+    #             all_words.filter(id=word.id).update(
+    #                 quality=(F("quality") + 100) / 2
+    #             )  # Increase word's quality
+    #         else:
+    #             all_words.filter(id=word.id).update(quality=(F("quality") + 0) / 2)
+    #     if temp_result == 0:
+    #         test.result = 0
+    #     else:
+    #         test.result = round((temp_result * 100) / len(right_words), 2)
+    #     test.save()

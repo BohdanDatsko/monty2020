@@ -1,29 +1,40 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from django.contrib.auth.models import User
-
-from monty.models import Profile, Dictionary, Theme, Word, Test
+from monty.models import Dictionary, Theme, Word, Test
 
 
-# Define an inline admin descriptor for Profile model
-# which acts a bit like a singleton
-class ProfileInline(admin.StackedInline):
-    model = Profile
-    can_delete = False
-    verbose_name_plural = 'profile'
+class DictionaryAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
-# Define a new User admin
-class UserAdmin(BaseUserAdmin):
-    inlines = (ProfileInline,)
+class ThemeAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
-# Re-register UserAdmin
-admin.site.unregister(User)
-admin.site.register(User, UserAdmin)
+class WordAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        return False
 
-admin.site.register(Dictionary)
-admin.site.register(Theme)
-admin.site.register(Word)
-admin.site.register(Test)
-admin.site.register(Profile)
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+class TestAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+admin.site.register(Dictionary, DictionaryAdmin)
+admin.site.register(Theme, ThemeAdmin)
+admin.site.register(Word, WordAdmin)
+admin.site.register(Test, TestAdmin)
