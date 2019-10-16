@@ -31,11 +31,11 @@ SOCIAL_AUTH_FACEBOOK_SECRET = config("FACEBOOK_APP_SECRET")
 # GENERAL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
-DEBUG = os.environ.get("DEBUG", False)
-# DEBUG = True
+# DEBUG = os.environ.get("DEBUG", False)
+DEBUG = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ["monty2019.herokuapp.com"]
-# ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ["monty2019.herokuapp.com"]
+ALLOWED_HOSTS = []
 # Local time zone. Choices are
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # though not all of them may be available with every OS.
