@@ -32,7 +32,7 @@ SOCIAL_AUTH_FACEBOOK_SECRET = config("FACEBOOK_APP_SECRET")
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
 # DEBUG = os.environ.get("DEBUG", False)
-DEBUG = True
+DEBUG = False
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = ["monty2019.herokuapp.com"]
 # ALLOWED_HOSTS = []
@@ -160,7 +160,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # other
     "corsheaders.middleware.CorsMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
+    # "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 
