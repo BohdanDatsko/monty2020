@@ -33,7 +33,11 @@ SOCIAL_AUTH_FACEBOOK_SECRET = config("FACEBOOK_APP_SECRET")
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
 DEBUG = os.environ.get("DEBUG", False)
 # DEBUG = True
-COMPRESS_ENABLED = os.environ.get("COMPRESS_ENABLED", False)
+
+
+# COMPRESS_ENABLED = os.environ.get("COMPRESS_ENABLED", False)
+
+
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = ["monty2019.herokuapp.com", "localhost", "127.0.0.1"]
 # ALLOWED_HOSTS = []
@@ -326,12 +330,12 @@ LOGGING = {
         "file": {
             "level": "DEBUG",
             "class": "logging.FileHandler",
-            "filename": "mysite.log",
+            "filename": "monty2019.log",
             "formatter": "verbose",
         }
     },
     "loggers": {
         "django": {"handlers": ["file"], "propagate": True, "level": "DEBUG"},
-        "MYAPP": {"handlers": ["file"], "level": "DEBUG"},
+        "monty": {"handlers": ["file"], "level": "DEBUG"},
     },
 }
