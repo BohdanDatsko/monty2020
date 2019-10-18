@@ -3,7 +3,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-from monty.views import FacebookLogin
+from monty.views import FacebookLogin, signin_signup_page
 from monty2019.swagger import get_swagger_view
 
 docs_api_view = get_swagger_view(title="Docs API")
@@ -17,6 +17,7 @@ urlpatterns = [
     path("rest-auth/registration/", include("rest_auth.registration.urls")),
     path("rest-auth/facebook/", FacebookLogin.as_view(), name="fb_login"),
     path("accounts/", include("allauth.urls")),
+    path("", signin_signup_page, name="homepage"),
     # API
     path("api/docs/", docs_api_view, name="docs_api"),
     path("api/", include("api.urls", namespace="api_v1_monty")),
