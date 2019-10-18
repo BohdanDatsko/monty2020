@@ -4,7 +4,6 @@
 *.pyc
 __pycache__/
 monty2019/local_settings.py
-# migrations/0001_initial.py
 #migrations/
 
 # Django stuff:
@@ -29,3 +28,6 @@ monty2019_venv/
 *.sqlite3
 
 *.env
+
+#Logs
+monty2019.log

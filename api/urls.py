@@ -9,6 +9,8 @@ from api.views import (
     WordDetail,
     TestList,
     TestDetail,
+    handle_test_creation,
+    check_test,
 
 )
 
@@ -45,4 +47,6 @@ urlpatterns = [
     ),
     path("tests/", TestList.as_view({"get": "list"}), name="tests"),
     path("tests/<int:pk>/", TestDetail.as_view(), name="tests_detail"),
+    path("test/", handle_test_creation, name="test_view"),
+    path("test/check/<int:pk>/", check_test, name="test_view_check"),
 ]

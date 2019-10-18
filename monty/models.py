@@ -1,6 +1,7 @@
 import datetime
 from django.db import models
 from django.utils import timezone
+from django.forms import ModelForm
 from languages.fields import LanguageField
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError

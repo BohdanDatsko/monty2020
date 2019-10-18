@@ -27,20 +27,13 @@ SECRET_KEY = config("SECRET_KEY")
 SOCIAL_AUTH_FACEBOOK_KEY = config("FACEBOOK_APP_ID")
 SOCIAL_AUTH_FACEBOOK_SECRET = config("FACEBOOK_APP_SECRET")
 
-
 # GENERAL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
 DEBUG = os.environ.get("DEBUG", False)
 # DEBUG = True
-
-
-# COMPRESS_ENABLED = os.environ.get("COMPRESS_ENABLED", False)
-
-
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ["monty2019.herokuapp.com", "localhost", "127.0.0.1"]
-# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["monty2019.herokuapp.com", "localhost:8000", "127.0.0.1:8000"]
 # Local time zone. Choices are
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # though not all of them may be available with every OS.
@@ -56,7 +49,6 @@ USE_I18N = True
 USE_L10N = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#use-tz
 USE_TZ = True
-
 
 # DATABASES
 # ------------------------------------------------------------------------------
@@ -77,14 +69,12 @@ except UndefinedValueError:
     db_from_env = dj_database_url.config()
     DATABASES["default"].update(db_from_env)
 
-
 # URLS
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#root-urlconf
 ROOT_URLCONF = "monty2019.urls"
 # https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
 WSGI_APPLICATION = "monty2019.wsgi.application"
-
 
 # APPS
 # ------------------------------------------------------------------------------
@@ -114,7 +104,6 @@ INSTALLED_APPS = [
     "users.apps.UsersConfig",
 ]
 
-
 # AUTHENTICATION
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#authentication-backends
@@ -128,7 +117,6 @@ AUTH_USER_MODEL = "users.User"
 LOGIN_REDIRECT_URL = "api:dictionaries"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
 LOGIN_URL = "account_login"
-
 
 # PASSWORDS
 # ------------------------------------------------------------------------------
@@ -150,7 +138,6 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-
 # MIDDLEWARE
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#middleware
@@ -168,7 +155,6 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
-
 # STATIC
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#static-root
@@ -185,14 +171,12 @@ STATICFILES_FINDERS = [
 # Extra places for collectstatic to find static files.
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-
 # MEDIA
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#media-root
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = "/media/"
-
 
 # TEMPLATES
 # ------------------------------------------------------------------------------
@@ -213,7 +197,6 @@ TEMPLATES = [
     }
 ]
 
-
 # EMAIL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
@@ -222,7 +205,6 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 EMAIL_HOST = "localhost"
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-port
 EMAIL_PORT = 1025
-
 
 # SECURITY
 # ------------------------------------------------------------------------------
@@ -234,7 +216,6 @@ CSRF_COOKIE_HTTPONLY = True
 SECURE_BROWSER_XSS_FILTER = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#x-frame-options
 X_FRAME_OPTIONS = "DENY"
-
 
 # django-allauth
 # ------------------------------------------------------------------------------
@@ -249,7 +230,6 @@ ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_ADAPTER = "users.adapters.AccountAdapter"
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 SOCIALACCOUNT_ADAPTER = "users.adapters.SocialAccountAdapter"
-
 
 # FaceBook Auth
 # ------------------------------------------------------------------------------
@@ -278,7 +258,6 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-
 # rest_framework
 # ------------------------------------------------------------------------------
 REST_FRAMEWORK = {
@@ -292,7 +271,6 @@ REST_FRAMEWORK = {
     # "DEFAULT_PARSER_CLASSES": ("rest_framework.parsers.JSONParser",),
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
 }
-
 
 # rest_framework_swagger
 # ------------------------------------------------------------------------------
@@ -308,11 +286,9 @@ SWAGGER_SETTINGS = {
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
-
 # Activate Django-Heroku
 # ------------------------------------------------------------------------------
 django_heroku.settings(locals())
-
 
 # Create Django-Logs
 # ------------------------------------------------------------------------------

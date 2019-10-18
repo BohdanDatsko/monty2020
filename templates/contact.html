@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if form %}
+<form action="/api/test/" method="post">{% csrf_token %}
+
+    {{ form.as_p}}
+    <button type="submit">Create</button>
+</form>
+{% endif %}
+{% if words%}
+
+<form  action="/api/test/check/{{test_id}}/" method="post">{% csrf_token %}
+
+    {% for word in words %}
+    <label for="{{word.fw}}">{{ word.fw }}</label>
+    <input name="{{ word.fw }}" id="{{word.fw}}"><br>
+    {% endfor %}
+    <button type="submit" class="btn btn-success">Test me</button>
+</form>
+{% endif %}
+{% endblock %}
