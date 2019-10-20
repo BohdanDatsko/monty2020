@@ -1,7 +1,19 @@
+{% extends 'base.html' %}
+
 {% load socialaccount %}
 {% providers_media_js %}
 
-<a class="btn btn-block btn-social btn-facebook" href="{% provider_login_url "facebook" method="js_sdk" %}">
-  <span class="fa fa-facebook"></span>
-               Sign in with Facebook
-</a>
+{% block title %} Sign in {% endblock %}
+{% block content %}
+<form action="/rest-auth/facebook/" method="post">{% csrf_token %}
+    <div class="row">
+        <div class="col-md-8 mx-auto social-container my-2 order-md-1">
+            <button class="btn btn-primary mb-2">
+                    <span class="fa fa-facebook">
+                        Login with Facebook
+                    </span>
+            </button>
+        </div>
+    </div>
+</form>
+{% endblock %}

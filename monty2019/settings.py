@@ -24,16 +24,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config("SECRET_KEY")
-SOCIAL_AUTH_FACEBOOK_KEY = config("FACEBOOK_APP_ID")
-SOCIAL_AUTH_FACEBOOK_SECRET = config("FACEBOOK_APP_SECRET")
 
 # GENERAL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
-DEBUG = os.environ.get("DEBUG", False)
-# DEBUG = True
+# DEBUG = os.environ.get("DEBUG", False)
+DEBUG = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ["monty2019.herokuapp.com", "localhost:8000", "127.0.0.1:8000"]
+# ALLOWED_HOSTS = ["monty2019.herokuapp.com", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = []
 # Local time zone. Choices are
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # though not all of them may be available with every OS.
@@ -114,9 +113,13 @@ AUTHENTICATION_BACKENDS = [
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
 AUTH_USER_MODEL = "users.User"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
-LOGIN_REDIRECT_URL = "api:dictionaries"
+LOGIN_REDIRECT_URL = "/api/dictionaries/"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
-LOGIN_URL = "account_login"
+# LOGIN_URL = "account_login"
+LOGIN_URL = "/rest-auth/login/"
+LOGOUT_URL = "/rest-auth/logout/"
+# https://docs.djangoproject.com/en/dev/ref/settings/#logout-redirect-url
+LOGOUT_REDIRECT_URL = "/rest-auth/login/"
 
 # PASSWORDS
 # ------------------------------------------------------------------------------
@@ -192,6 +195,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                # "social_django.context_processors.backends",
+                # "social_django.context_processors.login_redirect",
             ]
         },
     }
@@ -233,37 +238,49 @@ SOCIALACCOUNT_ADAPTER = "users.adapters.SocialAccountAdapter"
 
 # FaceBook Auth
 # ------------------------------------------------------------------------------
-SOCIALACCOUNT_PROVIDERS = {
-    "facebook": {
-        "METHOD": "oauth2",
-        "SCOPE": ["email", "public_profile", "user_friends"],
-        "AUTH_PARAMS": {"auth_type": "reauthenticate"},
-        "FIELDS": [
-            "id",
-            "email",
-            "name",
-            "first_name",
-            "last_name",
-            "verified",
-            "locale",
-            "timezone",
-            "link",
-            "gender",
-            "updated_time",
-        ],
-        "EXCHANGE_TOKEN": True,
-        "LOCALE_FUNC": lambda request: "en_US",
-        "VERIFIED_EMAIL": False,
-        "VERSION": "v2.4",
-    }
+SOCIAL_AUTH_FACEBOOK_KEY = config("FACEBOOK_APP_ID")
+SOCIAL_AUTH_FACEBOOK_SECRET = config("FACEBOOK_APP_SECRET")
+SOCIAL_AUTH_FACEBOOK_SCOPE = ["email", "user_link"]
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    "fields": "id, name, email, picture.type(large), link"
 }
+SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [
+    ("name", "name"),
+    ("email", "email"),
+    ("picture", "picture"),
+    ("link", "profile_url"),
+]
+# SOCIALACCOUNT_PROVIDERS = {
+#     "facebook": {
+#         "METHOD": "oauth2",
+#         "SCOPE": ["email", "public_profile", "user_friends"],
+#         "AUTH_PARAMS": {"auth_type": "reauthenticate"},
+#         "FIELDS": [
+#             "id",
+#             "email",
+#             "name",
+#             "first_name",
+#             "last_name",
+#             "verified",
+#             "locale",
+#             "timezone",
+#             "link",
+#             "gender",
+#             "updated_time",
+#         ],
+#         "EXCHANGE_TOKEN": True,
+#         "LOCALE_FUNC": lambda request: "en_US",
+#         "VERIFIED_EMAIL": False,
+#         "VERSION": "v2.4",
+#     }
+# }
 
 # rest_framework
 # ------------------------------------------------------------------------------
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework.authentication.SessionAuthentication",
+        # "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",
     ),
     "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
@@ -290,28 +307,28 @@ CORS_ALLOW_CREDENTIALS = True
 # ------------------------------------------------------------------------------
 django_heroku.settings(locals())
 
-# Create Django-Logs
-# ------------------------------------------------------------------------------
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "formatters": {
-        "verbose": {
-            "format": "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
-            "datefmt": "%d/%b/%Y %H:%M:%S",
-        },
-        "simple": {"format": "%(levelname)s %(message)s"},
-    },
-    "handlers": {
-        "file": {
-            "level": "DEBUG",
-            "class": "logging.FileHandler",
-            "filename": "monty2019.log",
-            "formatter": "verbose",
-        }
-    },
-    "loggers": {
-        "django": {"handlers": ["file"], "propagate": True, "level": "DEBUG"},
-        "monty": {"handlers": ["file"], "level": "DEBUG"},
-    },
-}
+# # Create Django-Logs
+# # ------------------------------------------------------------------------------
+# LOGGING = {
+#     "version": 1,
+#     "disable_existing_loggers": False,
+#     "formatters": {
+#         "verbose": {
+#             "format": "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+#             "datefmt": "%d/%b/%Y %H:%M:%S",
+#         },
+#         "simple": {"format": "%(levelname)s %(message)s"},
+#     },
+#     "handlers": {
+#         "file": {
+#             "level": "DEBUG",
+#             "class": "logging.FileHandler",
+#             "filename": "monty2019.log",
+#             "formatter": "verbose",
+#         }
+#     },
+#     "loggers": {
+#         "django": {"handlers": ["file"], "propagate": True, "level": "DEBUG"},
+#         "monty": {"handlers": ["file"], "level": "DEBUG"},
+#     },
+# }

@@ -19,21 +19,18 @@ def get_swagger_view(title=None, url=None, patterns=None, urlconf=None):
         renderer_classes = [
             CoreJSONRenderer,
             renderers.OpenAPIRenderer,
-            renderers.SwaggerUIRenderer
+            renderers.SwaggerUIRenderer,
         ]
 
         def get(self, request):
             generator = SchemaGenerator(
-                title=title,
-                url=url,
-                patterns=patterns,
-                urlconf=urlconf
+                title=title, url=url, patterns=patterns, urlconf=urlconf
             )
             schema = generator.get_schema(request=request, public=True)
 
             if not schema:
                 raise exceptions.ValidationError(
-                    'The schema generator did not return a schema Document'
+                    "The schema generator did not return a schema Document"
                 )
 
             return Response(schema)
