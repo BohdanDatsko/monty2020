@@ -28,11 +28,11 @@ SECRET_KEY = config("SECRET_KEY")
 # GENERAL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
-# DEBUG = os.environ.get("DEBUG", False)
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", False)
+# DEBUG = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-# ALLOWED_HOSTS = ["monty2019.herokuapp.com", "localhost", "127.0.0.1"]
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["monty2019.herokuapp.com", "127.0.0.1"]
+# ALLOWED_HOSTS = []
 # Local time zone. Choices are
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # though not all of them may be available with every OS.
@@ -97,6 +97,7 @@ INSTALLED_APPS = [
     "rest_auth.registration",
     "django_filters",
     "rest_framework_swagger",
+    "crispy_forms",
     # local apps
     "api.apps.ApiConfig",
     "monty.apps.MontyConfig",
@@ -112,14 +113,13 @@ AUTHENTICATION_BACKENDS = [
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
 AUTH_USER_MODEL = "users.User"
-# https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
-LOGIN_REDIRECT_URL = "/api/dictionaries/"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
-# LOGIN_URL = "account_login"
-LOGIN_URL = "/rest-auth/login/"
-LOGOUT_URL = "/rest-auth/logout/"
+LOGIN_URL = "account_login"
+LOGOUT_URL = "account_logout"
+# https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
+LOGIN_REDIRECT_URL = "/"
 # https://docs.djangoproject.com/en/dev/ref/settings/#logout-redirect-url
-LOGOUT_REDIRECT_URL = "/rest-auth/login/"
+LOGOUT_REDIRECT_URL = "/"
 
 # PASSWORDS
 # ------------------------------------------------------------------------------
@@ -280,7 +280,8 @@ SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        # "rest_framework.authentication.SessionAuthentication",
+        # "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",
     ),
     "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",

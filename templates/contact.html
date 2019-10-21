@@ -1,49 +1,59 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
-{% if form %}
-<div class="card text-center">
-    <div class="card-header">
-        <h4>Pass your test here</h4>
-        <h5>Choose dictionary and themes to generate words for test</h5>
-    </div>
-    <div class="card-body">
-        <form action="/api/test/" method="post">{% csrf_token %}
+<div class="card p-5">
+    {% if form %}
+    <div class="limiter">
+                <span class="login100-form-title p-b-49">
+                    Pass your test here
+                    <h5>Choose dictionary and themes to generate words for test</h5>
+                </span>
+        <div class="wrap-login100 p-l-80 p-r-5 p-t-655 p-b-55">
+            <form action="/api/test/" method="post">{% csrf_token %}
 
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Create</button>
-        </form>
-    </div>
-</div>
-{% endif %}
+                {{ form.as_p }}
+                <div class="container-login100-form-btn">
+                    <div class="wrap-login100-form-btn">
+                        <div class="login100-form-bgbtn"></div>
+                        <button class="login100-form-btn" type="submit">Create</button>
+                    </div>
+                </div>
 
-{% if words %}
-<div class="card text-center">
-    <div class="card-header">
-        <h5 class="card-title">Type right translation into the blank below</h5>
+            </form>
+        </div>
     </div>
-    <div class="card-body">
-        <div class="mx-auto" style="width: 200px;">
+    {% endif %}
+
+    {% if words %}
+    <div class="limiter">
+                <span class="login100-form-title p-b-23">
+                    <h5 class="card-title">Type right translation into the blank below</h5>
+                </span>
+        <div class="wrap-login100 p-l-0 p-r-5 p-t-0 p-b-0">
             <form action="/api/test/check/{{test_id}}/" method="post">{% csrf_token %}
                 {% for word in words %}
                 <label for="{{word.fw}}">{{ word.fw }}</label>
-                <input name="{{ word.fw }}" id="{{word.fw}}"><br>
+                <div class="wrap-input100 m-b-23">
+
+                    <input name="{{ word.fw }}" id="{{word.fw}}"><br>
+                </div>
                 {% endfor %}
-                <div class="btn btn-center">
-                    <button type="submit" class="btn btn-success">Test me</button>
+                <div class="container-login100-form-btn">
+                    <div class="wrap-login100-form-btn">
+                        <div class="login100-form-bgbtn"></div>
+                        <button class="login100-form-btn" type="submit">Test me</button>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
-</div>
-{% endif %}
+    {% endif %}
 
-{% if test_result %}
-<!--<div class="card text-center">-->
-<div class="badge badge-info text-warning" style="width: 20rem;">
+    {% if test_result %}
+    <div class="badge badge-info text-warning" style="width: 20rem;">
         <h3>Your test result {{ test_result }} !!!</h3>
+    </div>
+    {% endif %}
 </div>
-<!--</div>-->
-{% endif %}
-
 {% endblock %}

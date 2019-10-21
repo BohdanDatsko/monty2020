@@ -11,7 +11,6 @@ from api.views import (
     TestDetail,
     handle_test_creation,
     check_test,
-
 )
 
 app_name = "api"

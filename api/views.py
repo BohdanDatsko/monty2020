@@ -108,7 +108,7 @@ def handle_test_creation(request):
             print(all_words)
             if len(all_words) == 0:
                 return HttpResponse(
-                    "Here's no words in this dictionary for this themes yet.Please choose another one."
+                    "Here's no words in this dictionary for this themes yet. Please choose another one."
                 )
             else:
                 excellent_words = all_words.filter(
