@@ -3,14 +3,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-from monty.views import (
-    FacebookLogin,
-    signin_page,
-    signup_page,
-    home_page,
-    reset_password,
-    logout_page,
-)
+from monty.views import FacebookLogin, home_page
 from monty2019.swagger import get_swagger_view
 
 docs_api_view = get_swagger_view(title="Docs API")
