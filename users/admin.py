@@ -17,32 +17,32 @@ class UserAdmin(auth_admin.UserAdmin):
     list_display = ["username", "is_superuser", "email"]
     search_fields = ["username"]
 
-    # def has_add_permission(self, request):
-    #     return False
-    #
-    # def has_delete_permission(self, request, obj=None):
-    #     return False
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
 class MyEmailAddressAdmin(EmailAddressAdmin):
     def has_add_permission(self, request):
-        return True
+        return False
 
     def has_delete_permission(self, request, obj=None):
-        return True
+        return False
 
 
 class TokenAdmin(admin.ModelAdmin):
     list_display = ("key", "user", "created")
 
-    # def has_add_permission(self, request):
-    #     return False
-    #
-    # def has_change_permission(self, request, obj=None):
-    #     return False
+    def has_add_permission(self, request):
+        return False
 
-    # def has_delete_permission(self, request, obj=None):
-    #     return False
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
 admin.site.register(User, UserAdmin)
