@@ -4,34 +4,34 @@ from monty.models import Dictionary, Theme, Word, Test
 
 class DictionaryAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
-        return False
+        return True
 
     def has_delete_permission(self, request, obj=None):
-        return False
+        return True
 
 
 class ThemeAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
-        return False
+        return True
 
     def has_delete_permission(self, request, obj=None):
-        return False
+        return True
 
 
 class WordAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
-        return False
+        return True
 
     def has_delete_permission(self, request, obj=None):
-        return False
+        return True
 
 
 class TestAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
-        return False
+        return True
 
     def has_delete_permission(self, request, obj=None):
-        return False
+        return True
 
 
 admin.site.register(Dictionary, DictionaryAdmin)
