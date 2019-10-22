@@ -99,12 +99,12 @@ def handle_test_creation(request):
             # Process the data in form.cleaned_data
             # ...
             # return HttpResponseRedirect('/thanks/') # Redirect after POST
-            user = request.user
+            # user = request.user
             dictionary = form.cleaned_data.get("dictionary")
             themes = form.cleaned_data.get("themes")
             themes_ids = [item.id for item in themes]
             all_words = Word.objects.filter(
-                user_id=user.id, dictionary_id=dictionary.id, theme_id__in=themes_ids
+                dictionary_id=dictionary.id, theme_id__in=themes_ids
             )
             print(all_words)
             if len(all_words) == 0:
