@@ -30,4 +30,4 @@ monty2019_venv/
 *.env
 
 #Logs
-#monty2019.log
+monty2019.log
