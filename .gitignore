@@ -1,5 +1,5 @@
 ### Django ###
-#*.log
+*.log
 *.pot
 *.pyc
 __pycache__/
@@ -29,5 +29,3 @@ monty2019_venv/
 
 *.env
 
-#Logs
-#monty2019.log

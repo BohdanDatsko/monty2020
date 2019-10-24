@@ -29,10 +29,8 @@ SECRET_KEY = config("SECRET_KEY")
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
 DEBUG = os.environ.get("DEBUG", False)
-# DEBUG = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = ["monty2019.herokuapp.com", "127.0.0.1"]
-# ALLOWED_HOSTS = []
 # Local time zone. Choices are
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # though not all of them may be available with every OS.
@@ -195,8 +193,6 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                # "social_django.context_processors.backends",
-                # "social_django.context_processors.login_redirect",
             ]
         },
     }
