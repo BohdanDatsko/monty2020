@@ -1,7 +1,6 @@
 import datetime
 from django.db import models
 from django.utils import timezone
-from django.forms import ModelForm
 from languages.fields import LanguageField
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
@@ -82,7 +81,7 @@ class Word(models.Model):
         verbose_name_plural = "Words"
 
     def __str__(self):
-        return "{0}".format(self.id)
+        return "{0} - {1}".format(self.native_word, self.foreign_word)
 
     def save(self, *args, **kwargs):
         self.clean()

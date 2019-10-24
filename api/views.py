@@ -52,6 +52,9 @@ class ThemeList(ViewSetMixin, generics.ListCreateAPIView):
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ["theme_name"]
 
+    def perform_create(self, serializer):
+        serializer.save(dictionary_id=self.kwargs.get("d_pk", None))
+
     def get_queryset(self):
         queryset = Theme.objects.filter(dictionary=self.kwargs.get("d_pk", None))
         return queryset
@@ -70,6 +73,9 @@ class WordList(ViewSetMixin, generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ["dictionary", "theme"]
     ordering_fields = ["native_word", "foreign_word"]
+
+    def perform_create(self, serializer):
+        serializer.save(dictionary_id=self.kwargs.get("d_pk", None))
 
     def get_queryset(self):
         queryset = Word.objects.filter(theme=self.kwargs.get("t_pk", None))
@@ -99,7 +105,6 @@ def handle_test_creation(request):
             # Process the data in form.cleaned_data
             # ...
             # return HttpResponseRedirect('/thanks/') # Redirect after POST
-            # user = request.user
             dictionary = form.cleaned_data.get("dictionary")
             themes = form.cleaned_data.get("themes")
             themes_ids = [item.id for item in themes]
@@ -142,7 +147,7 @@ def handle_test_creation(request):
                 request, "contact.html", {"test_id": test.id, "words": res_words}
             )
     else:
-        form = TestForm()  # An unbound form
+        form = TestForm(initial={"user_id": request.user.id})  # An unbound form
 
     return render(request, "contact.html", {"form": form})
 

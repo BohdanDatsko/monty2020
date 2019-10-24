@@ -28,8 +28,8 @@ SECRET_KEY = config("SECRET_KEY")
 # GENERAL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
-# DEBUG = os.environ.get("DEBUG", False)
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", False)
+# DEBUG = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = ["monty2019.herokuapp.com", "127.0.0.1"]
 # ALLOWED_HOSTS = []
