@@ -29,3 +29,4 @@ monty2019_venv/
 
 *.env
 
+*.vscode/
