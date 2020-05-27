@@ -14,8 +14,8 @@ class Dictionary(models.Model):
     owner = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="dictionaries"
     )
-    native_language = LanguageField()
-    foreign_language = LanguageField()
+    native_language = LanguageField(max_length=8)
+    foreign_language = LanguageField(max_length=8)
     dictionary_name = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -45,7 +45,7 @@ class MyUserManager(UserManager):
 
 
 class User(AbstractUser):
-    native_language = LanguageField(default="en")
+    native_language = LanguageField(max_length=8, default="en")
 
     objects = MyUserManager()
 
