@@ -1,10 +1,11 @@
 import datetime
-from model_mommy import mommy
+
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.utils import timezone
-from django.contrib.auth import get_user_model
-from monty.models import Word, Theme, Dictionary, Test
+from model_mommy import mommy
 
+from monty.models import Word, Theme, Dictionary, Test
 
 User = get_user_model()
 

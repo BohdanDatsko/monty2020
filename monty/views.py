@@ -1,6 +1,5 @@
-from django.shortcuts import render
-
 from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
+from django.shortcuts import render
 from rest_auth.registration.views import SocialLoginView
 
 

@@ -1,6 +1,7 @@
 from rest_framework import permissions
-from monty.models import Dictionary, Theme, Word
 from rest_framework.exceptions import PermissionDenied
+
+from monty.models import Dictionary, Theme, Word
 
 
 class IsLoggedInUserOrAdmin(permissions.BasePermission):
@@ -51,9 +52,7 @@ class IsWordOwnerOrAdmin(permissions.BasePermission):
         if request.user.is_staff:
             return True
         else:
-            view.queryset = Word.objects.filter(
-                dictionary__owner=request.user
-            )
+            view.queryset = Word.objects.filter(dictionary__owner=request.user)
             if len(view.queryset) == 0:
                 return True
             return view.queryset

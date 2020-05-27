@@ -1,10 +1,11 @@
 import datetime
+
+from django.contrib.auth import get_user_model
+from django.contrib.postgres.fields import ArrayField
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 from languages.fields import LanguageField
-from django.contrib.auth import get_user_model
-from django.core.exceptions import ValidationError
-from django.contrib.postgres.fields import ArrayField
 
 User = get_user_model()
 
@@ -28,9 +29,7 @@ class Dictionary(models.Model):
 
     def get_dictionary_name(self, theme_id):
         theme = Theme.objects.get(id=theme_id)
-        return "{0} belongs to {1} dictionary.".format(
-            theme.theme_name, self.dictionary_name
-        )
+        return f"{theme.theme_name} belongs to {self.dictionary_name} dictionary."
 
 
 class Theme(models.Model):
@@ -42,7 +41,7 @@ class Theme(models.Model):
         verbose_name_plural = "Themes"
 
     def __str__(self):
-        return "{0}".format(self.theme_name)
+        return f"{self.theme_name}"
 
     def save(self, *args, **kwargs):
         self.clean()
@@ -59,7 +58,7 @@ class Theme(models.Model):
 
     def get_theme_name(self, word_id):
         word = Word.objects.get(id=word_id)
-        return "{0} belongs to {1} theme.".format(word.native_word, self.theme_name)
+        return f"{word.native_word} belongs to {self.theme_name} theme."
 
 
 class Word(models.Model):
@@ -81,7 +80,7 @@ class Word(models.Model):
         verbose_name_plural = "Words"
 
     def __str__(self):
-        return "{0} - {1}".format(self.native_word, self.foreign_word)
+        return f"{self.native_word} - {self.foreign_word}"
 
     def save(self, *args, **kwargs):
         self.clean()
@@ -99,7 +98,7 @@ class Word(models.Model):
         return user
 
     def get_translate(self):
-        return "{0} is translated as {1}.".format(self.native_word, self.foreign_word)
+        return f"{self.native_word} is translated as {self.foreign_word}."
 
 
 class Test(models.Model):
@@ -114,7 +113,7 @@ class Test(models.Model):
         verbose_name_plural = "Tests"
 
     def __str__(self):
-        return "{0}".format(self.id)
+        return f"{self.id}"
 
     def was_passed_recently(self):
         now = timezone.now()

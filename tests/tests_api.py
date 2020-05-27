@@ -30,9 +30,7 @@ class DictionaryListTests(APITestCase):
         self.assertEqual(
             response.status_code,
             200,
-            "Expected Response Code 200, received {0} instead.".format(
-                response.status_code
-            ),
+            f"Expected Response Code 200, received {response.status_code} instead.",
         )
 
     def test_create(self):
@@ -49,9 +47,7 @@ class DictionaryListTests(APITestCase):
         self.assertEqual(
             response.status_code,
             201,
-            "Expected Response Code 201, received {0} instead.".format(
-                response.status_code
-            ),
+            f"Expected Response Code 201, received {response.status_code} instead.",
         )
 
 
@@ -101,9 +97,7 @@ class DictionaryDetailTests(APITestCase):
         self.assertEqual(
             response.status_code,
             200,
-            "Expected Response Code 200, received {0} instead.".format(
-                response.status_code
-            ),
+            f"Expected Response Code 200, received {response.status_code} instead.",
         )
 
     def test_destroy(self):
@@ -113,9 +107,7 @@ class DictionaryDetailTests(APITestCase):
         self.assertEqual(
             response.status_code,
             204,
-            "Expected Response Code 204, received {0} instead.".format(
-                response.status_code
-            ),
+            f"Expected Response Code 204, received {response.status_code} instead.",
         )
 
 
@@ -142,29 +134,23 @@ class ThemeListTests(APITestCase):
         )
 
     def test_list(self):
-        response = self.client.get(
-            "{0}{1}/themes/".format(self.uri, self.test_dictionary.pk)
-        )
+        response = self.client.get(f"{self.uri}{self.test_dictionary.pk}/themes/")
         self.assertEqual(
             response.status_code,
             200,
-            "Expected Response Code 200, received {0} instead.".format(
-                response.status_code
-            ),
+            f"Expected Response Code 200, received {response.status_code} instead.",
         )
 
     def test_create(self):
         response = self.client.post(
-            "{0}{1}/themes/".format(self.uri, self.test_dictionary.pk),
+            f"{self.uri}{self.test_dictionary.pk}/themes/",
             {"dictionary": self.test_dictionary.id, "theme_name": "Detective Comics"},
             format="json",
         )
         self.assertEqual(
             response.status_code,
             201,
-            "Expected Response Code 201, received {0} instead.".format(
-                response.status_code
-            ),
+            f"Expected Response Code 201, received {response.status_code} instead.",
         )
 
 
@@ -192,46 +178,34 @@ class ThemeDetailTests(APITestCase):
 
     def test_retrieve(self):
         response = self.client.get(
-            "{0}{1}/themes/{2}/".format(
-                self.uri, self.test_dictionary.pk, self.test_theme.pk
-            )
+            f"{self.uri}{self.test_dictionary.pk}/themes/{self.test_theme.pk}/"
         )
         self.assertEqual(
             response.status_code,
             200,
-            "Expected Response Code 200, received {0} instead.".format(
-                response.status_code
-            ),
+            f"Expected Response Code 200, received {response.status_code} instead.",
         )
 
     def test_update(self):
         response = self.client.put(
-            "{0}{1}/themes/{2}/".format(
-                self.uri, self.test_dictionary.pk, self.test_theme.pk
-            ),
+            f"{self.uri}{self.test_dictionary.pk}/themes/{self.test_theme.pk}/",
             {"dictionary": self.test_dictionary.id, "theme_name": "Vertigo"},
             format="json",
         )
         self.assertEqual(
             response.status_code,
             200,
-            "Expected Response Code 200, received {0} instead.".format(
-                response.status_code
-            ),
+            f"Expected Response Code 200, received {response.status_code} instead.",
         )
 
     def test_destroy(self):
         response = self.client.delete(
-            "{0}{1}/themes/{2}/".format(
-                self.uri, self.test_dictionary.pk, self.test_theme.pk
-            )
+            f"{self.uri}{self.test_dictionary.pk}/themes/{self.test_theme.pk}/"
         )
         self.assertEqual(
             response.status_code,
             204,
-            "Expected Response Code 204, received {0} instead.".format(
-                response.status_code
-            ),
+            f"Expected Response Code 204, received {response.status_code} instead.",
         )
 
 
@@ -259,23 +233,17 @@ class WordListTests(APITestCase):
 
     def test_list(self):
         response = self.client.get(
-            "{0}{1}/themes/{2}/words/".format(
-                self.uri, self.test_dictionary.pk, self.test_theme.pk
-            )
+            f"{self.uri}{self.test_dictionary.pk}/themes/{self.test_theme.pk}/words/"
         )
         self.assertEqual(
             response.status_code,
             200,
-            "Expected Response Code 200, received {0} instead.".format(
-                response.status_code
-            ),
+            f"Expected Response Code 200, received {response.status_code} instead.",
         )
 
     def test_create(self):
         response = self.client.post(
-            "{0}{1}/themes/{2}/words/".format(
-                self.uri, self.test_dictionary.pk, self.test_theme.pk
-            ),
+            f"{self.uri}{self.test_dictionary.pk}/themes/{self.test_theme.pk}/words/",
             {
                 "native_word": ["blablabla"],
                 "foreign_word": ["блаблабла"],
@@ -287,9 +255,7 @@ class WordListTests(APITestCase):
         self.assertEqual(
             response.status_code,
             201,
-            "Expected Response Code 201, received {0} instead.".format(
-                response.status_code
-            ),
+            f"Expected Response Code 201, received {response.status_code} instead.",
         )
 
 
@@ -323,23 +289,17 @@ class WordDetailTests(APITestCase):
 
     def test_retrieve(self):
         response = self.client.get(
-            "{0}{1}/themes/{2}/words/{3}/".format(
-                self.uri, self.test_dictionary.pk, self.test_theme.pk, self.test_word.pk
-            )
+            f"{self.uri}{self.test_dictionary.pk}/themes/{self.test_theme.pk}/words/{self.test_word.pk}/"
         )
         self.assertEqual(
             response.status_code,
             200,
-            "Expected Response Code 200, received {0} instead.".format(
-                response.status_code
-            ),
+            f"Expected Response Code 200, received {response.status_code} instead.",
         )
 
     def test_update(self):
         response = self.client.put(
-            "{0}{1}/themes/{2}/words/{3}/".format(
-                self.uri, self.test_dictionary.pk, self.test_theme.pk, self.test_word.pk
-            ),
+            f"{self.uri}{self.test_dictionary.pk}/themes/{self.test_theme.pk}/words/{self.test_word.pk}/",
             {
                 "native_word": ["ololololo"],
                 "foreign_word": ["ололололо"],
@@ -351,23 +311,17 @@ class WordDetailTests(APITestCase):
         self.assertEqual(
             response.status_code,
             200,
-            "Expected Response Code 200, received {0} instead.".format(
-                response.status_code
-            ),
+            f"Expected Response Code 200, received {response.status_code} instead.",
         )
 
     def test_destroy(self):
         response = self.client.delete(
-            "{0}{1}/themes/{2}/words/{3}/".format(
-                self.uri, self.test_dictionary.pk, self.test_theme.pk, self.test_word.pk
-            )
+            f"{self.uri}{self.test_dictionary.pk}/themes/{self.test_theme.pk}/words/{self.test_word.pk}/"
         )
         self.assertEqual(
             response.status_code,
             204,
-            "Expected Response Code 204, received {0} instead.".format(
-                response.status_code
-            ),
+            f"Expected Response Code 204, received {response.status_code} instead.",
         )
 
 
@@ -394,29 +348,25 @@ class TestTestViews(APITestCase):
 
     def test_list(self):
         request = self.factory.get(
-            self.uri, HTTP_AUTHORIZATION="Token {}".format(self.token.key)
+            self.uri, HTTP_AUTHORIZATION=f"Token {self.token.key}"
         )
         request.user = self.owner
         response = self.view(request)
         self.assertEqual(
             response.status_code,
             200,
-            "Expected Response Code 200, received {0} instead.".format(
-                response.status_code
-            ),
+            f"Expected Response Code 200, received {response.status_code} instead.",
         )
 
     def test_details(self):
         request = self.factory.get(
-            "{0}{1}/".format(self.uri, self.example_test.pk),
-            HTTP_AUTHORIZATION="Token {}".format(self.token.key),
+            f"{self.uri}{self.example_test.pk}/",
+            HTTP_AUTHORIZATION=f"Token {self.token.key}",
         )
         request.user = self.owner
         response = self.view(request)
         self.assertEqual(
             response.status_code,
             200,
-            "Expected Response Code 200, received {0} instead.".format(
-                response.status_code
-            ),
+            f"Expected Response Code 200, received {response.status_code} instead.",
         )

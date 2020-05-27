@@ -8,7 +8,6 @@ from monty2019.swagger import get_swagger_view
 
 docs_api_view = get_swagger_view(title="Docs API")
 
-
 urlpatterns = [
     # Django Admin, use {% url 'admin:index' %}
     path("admin/", admin.site.urls),

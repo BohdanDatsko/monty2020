@@ -16,7 +16,6 @@ db.sqlite3-journal
 
 # Environments
 venv/
-monty2019_venv/
 
 ### PyCharm ###
 .idea/

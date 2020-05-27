@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from monty.models import Dictionary, Theme, Word, Test
 
 
