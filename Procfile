@@ -1,2 +1,2 @@
-web: gunicorn monty2019.wsgi --log-file -
+web: gunicorn monty2020.wsgi --log-file -
 release: python manage.py migrate

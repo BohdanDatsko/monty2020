@@ -3,7 +3,6 @@
 *.pot
 *.pyc
 __pycache__/
-monty2019/local_settings.py
 #migrations/
 
 # Django stuff:
